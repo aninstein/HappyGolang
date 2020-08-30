@@ -1,11 +1,23 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+    "math/rand"
+    "sort"
+    "time"
+)
 
-func main() {
-    data := []int{1, 5, 7, 1, 8, 9, 4, 2, 3, -1, 14, 41, -22}
-    fmt.Println(bubbleSort(data))
+const DATALEN  = 20000
 
+var TIMELIST map[int] string
+
+
+func createData() []int {
+    var retData [DATALEN]int
+    for i:=0; i<DATALEN; i++ {
+        retData[i] = rand.Intn(99999) + 1
+    }
+    return retData[:]
 }
 
 
@@ -34,7 +46,7 @@ func selectSort(data []int) []int{
     for i := 0; i < dataLen; i++ {
         tmp := i
         for j := i+1; j < dataLen; j++ {
-            if data[tmp] < data[j] {
+            if data[tmp] > data[j] {
                 tmp = j
             }
         }
@@ -55,8 +67,13 @@ func insertSort(data []int) []int {
     for i := 1; i < dataLen; i++ {
         if data[i-1] > data[i] {
             tmp := data[i]
-            for j := i; j > 0; j-- {
-                if tmp < data[j-1]{
+            for j := i; j >= 0; j-- {
+                if j == 0 {
+                    data[j] = tmp
+                    break
+                }
+
+                if data[j-1] > tmp {
                     data[j] = data[j-1]  //挪动字段
                 } else {
                     data[j] = tmp
@@ -205,3 +222,62 @@ func swap(data []int, i, j int) {
     data[i], data[j] = data[j], data[i]
 }
 
+func checkResult(data, right []int) bool {
+    dataLen := len(data)
+    rightLen := len(right)
+
+    if dataLen != rightLen {
+        return false
+    }
+
+    for i:=0; i<dataLen; i++ {
+        if data[i] != right[i] {
+            return false
+        }
+    }
+    return true
+}
+
+
+func sortTestFunc(sortFunc func(data []int) []int, data, rightResult []int, name string)  {
+    var usData []int
+    usData = append(usData, data...)
+    fmt.Println("# "+ name +" start >>>>>>>>>>>>>> ")
+    start := time.Now().UnixNano()
+    res := sortFunc(usData)
+    total := time.Now().UnixNano() - start
+    TIMELIST[int(total)] = name
+    fmt.Println("# "+ name +" end, total time: ", total)
+    fmt.Println("# "+ name + "result: ", res)
+    fmt.Println("# "+ name +" result is: ", checkResult(res, rightResult))
+    fmt.Println()
+}
+
+
+func main() {
+    data := createData()
+    var right []int
+    right = append(right, data...)
+    sort.Ints(right)
+    fmt.Println("data: ", data)
+    fmt.Println("right: ", right)
+    TIMELIST = make(map[int] string)
+    sortTestFunc(bubbleSort, data, right, "bubbleSort")
+    sortTestFunc(selectSort, data, right, "selectSort")
+    sortTestFunc(insertSort, data, right, "insertSort")
+    sortTestFunc(shellSort, data, right, "shellSort")
+    sortTestFunc(fastSort1, data, right, "fastSort1")
+    sortTestFunc(mergeSort, data, right, "mergeSort")
+
+    var keyList []int
+    for key := range TIMELIST {
+        keyList = append(keyList, key)
+    }
+    sort.Ints(keyList)
+
+
+    for i:=0; i<len(keyList); i++ {
+        key := keyList[i]
+        fmt.Println("time: ", key, "func name: ", TIMELIST[key])
+    }
+}
