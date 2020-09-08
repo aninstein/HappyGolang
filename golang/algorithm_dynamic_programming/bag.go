@@ -256,21 +256,106 @@ func pakMultipleKOneDim(totalNum, totalWeight int, v, w, num []int) int {
     return dp[totalWeight]
 }
 
-func main() {
-   fmt.Println("<<<<< For 0 and 1 pak >>>>>")
-   data := createBagData(10, "01")
-   fmt.Println(data)
-   pak0And1(data, 30)
+// 《把多重背包转换成01背包，二进制优化法》
+// 对元数据本身进行操作
+// 我们把k分解成，【二的次方的和】+【剩余常数】
+// 改装后的元数据，其实就只剩下
+func pakMultipleBin(totalNum, totalWeight int, v, w, num []int) int {
 
-   fmt.Println()
-   fmt.Println("<<<<< For complete pak >>>>>")
-   data = createBagData(10, "complete")
-   fmt.Println(data)
-   pakComplete(data, 30)
+}
 
-   fmt.Println()
-   fmt.Println("<<<<< For multiple pak >>>>>")
-   data = createBagData(10, "multiple")
-   fmt.Println(data)
-   pakMultiple(data, 30)
+
+//func main() {
+//   fmt.Println("<<<<< For 0 and 1 pak >>>>>")
+//   data := createBagData(10, "01")
+//   fmt.Println(data)
+//   pak0And1(data, 30)
+//
+//   fmt.Println()
+//   fmt.Println("<<<<< For complete pak >>>>>")
+//   data = createBagData(10, "complete")
+//   fmt.Println(data)
+//   pakComplete(data, 30)
+//
+//   fmt.Println()
+//   fmt.Println("<<<<< For multiple pak >>>>>")
+//   data = createBagData(10, "multiple")
+//   fmt.Println(data)
+//   pakMultiple(data, 30)
+//}
+
+
+
+//#include<iostream>
+//using namespace std;
+//const int N=11010,M=2010;
+//int n,m;
+//int v[N],w[N];
+//int f[M];
+//int main()
+//{
+//    cin>>n>>m;
+//    int cnt=1;
+//    for(int i=1;i<=n;i++)//拆分打包
+//    {
+//        int a,b,s;
+//        cin>>a>>b>>s;
+//        int k=1;
+//        while(k<=s)
+//        {
+//            v[cnt]=a*k;
+//            w[cnt]=b*k;
+//            s-=k;
+//            k*=2;
+//            cnt++;
+//        }
+//        if(s>0)
+//        {
+//            v[cnt]=s*a;
+//            w[cnt]=s*b;
+//            cnt++;
+//        }
+//    }
+//    for(int i=1;i<=cnt;i++)
+//    {
+//        for(int j=m;j>=v[i];j--)
+//        {
+//            f[j]=max(f[j],f[j-v[i]]+w[i]);
+//        }
+//    }
+//    cout<<f[m]<<endl;
+//    return 0;
+//}
+const N = 11010
+const M = 2010
+
+func main()  {
+    var n, m int
+    var v, w [N]int
+    fmt.Scanln(&n, &m)
+    cnt := 1
+    for i:=0; i<=n; i++ {
+        var a, b, s int
+        fmt.Scanln(&a, &b, &s)
+        var k int
+        for k <= s {
+            v[cnt] = a*k
+            w[cnt] = b*k
+            s -= k
+            k <<= 1
+            cnt++
+        }
+
+        if s != 0 {
+            v[cnt] = a*s
+            w[cnt] = b*s
+        }
+    }
+    var dp [M]int
+    for i:=1; i<=cnt; i++ {
+        for j:=m; j>=v[i]; j-- {
+            dp[j]=max(dp[j],dp[j-v[i]]+w[i])
+        }
+    }
+    fmt.Println(dp[m])
 }
