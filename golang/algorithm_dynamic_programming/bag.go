@@ -6,8 +6,8 @@ import (
     "time"
 )
 
-const ROW = 1000
-const COL = 1000
+const ROW = 10000
+const COL = 10000
 
 func createBagData(number int, bagType string) map[string][]int {
     rand.Seed(time.Now().UnixNano()) // 时间做随机种子
@@ -203,6 +203,10 @@ func pakMultiple(data map[string][]int, totalWeight int) int {
     res = pakMultipleKOneDim(totalNumber, totalWeight, valueList, weightList, numberList)
     fmt.Println(res)
 
+    fmt.Println("One pakMultipleBin function result: ")
+    res = pakMultipleBin(totalNumber, totalWeight, valueList, weightList, numberList)
+    fmt.Println(res)
+
     return res
 }
 
@@ -261,101 +265,92 @@ func pakMultipleKOneDim(totalNum, totalWeight int, v, w, num []int) int {
 // 我们把k分解成，【二的次方的和】+【剩余常数】
 // 改装后的元数据，其实就只剩下
 func pakMultipleBin(totalNum, totalWeight int, v, w, num []int) int {
-
-}
-
-
-//func main() {
-//   fmt.Println("<<<<< For 0 and 1 pak >>>>>")
-//   data := createBagData(10, "01")
-//   fmt.Println(data)
-//   pak0And1(data, 30)
-//
-//   fmt.Println()
-//   fmt.Println("<<<<< For complete pak >>>>>")
-//   data = createBagData(10, "complete")
-//   fmt.Println(data)
-//   pakComplete(data, 30)
-//
-//   fmt.Println()
-//   fmt.Println("<<<<< For multiple pak >>>>>")
-//   data = createBagData(10, "multiple")
-//   fmt.Println(data)
-//   pakMultiple(data, 30)
-//}
-
-
-
-//#include<iostream>
-//using namespace std;
-//const int N=11010,M=2010;
-//int n,m;
-//int v[N],w[N];
-//int f[M];
-//int main()
-//{
-//    cin>>n>>m;
-//    int cnt=1;
-//    for(int i=1;i<=n;i++)//拆分打包
-//    {
-//        int a,b,s;
-//        cin>>a>>b>>s;
-//        int k=1;
-//        while(k<=s)
-//        {
-//            v[cnt]=a*k;
-//            w[cnt]=b*k;
-//            s-=k;
-//            k*=2;
-//            cnt++;
-//        }
-//        if(s>0)
-//        {
-//            v[cnt]=s*a;
-//            w[cnt]=s*b;
-//            cnt++;
-//        }
-//    }
-//    for(int i=1;i<=cnt;i++)
-//    {
-//        for(int j=m;j>=v[i];j--)
-//        {
-//            f[j]=max(f[j],f[j-v[i]]+w[i]);
-//        }
-//    }
-//    cout<<f[m]<<endl;
-//    return 0;
-//}
-const N = 11010
-const M = 2010
-
-func main()  {
-    var n, m int
-    var v, w [N]int
-    fmt.Scanln(&n, &m)
-    cnt := 1
-    for i:=0; i<=n; i++ {
-        var a, b, s int
-        fmt.Scanln(&a, &b, &s)
-        var k int
+    count := 1  // 表示数组的长度
+    var tv, tw [COL]int
+    for i:=0; i<totalNum; i++ {
+        a, b, s := v[i], w[i], num[i]
+        // 把当前的s进行分解，看看这个取值k可以到多少范围
+        k := 1
         for k <= s {
-            v[cnt] = a*k
-            w[cnt] = b*k
+            tv[count] = a * k
+            tw[count] = b * k
             s -= k
             k <<= 1
-            cnt++
+            count++
         }
 
+        // 这个s没完全被分解完的部分，即上述的常数c
         if s != 0 {
-            v[cnt] = a*s
-            w[cnt] = b*s
+            tv[count] = a * k
+            tw[count] = b * k
+            count++
         }
     }
-    var dp [M]int
-    for i:=1; i<=cnt; i++ {
-        for j:=m; j>=v[i]; j-- {
-            dp[j]=max(dp[j],dp[j-v[i]]+w[i])
+
+    // 至此，我们的数据已经归整完毕
+    // tv，tw：存放的是，当2次幂个物品被放进来的时候，的价值，下标为count，这时候只需要进行01背包运算即可
+    var dp [COL]int
+    for i:=1; i<=count; i++ {
+        for j:=totalWeight; j>=tw[i]; j-- {
+            input := dp[j-tw[i]]+tv[i]
+            notput := dp[j]
+            dp[j] = max(input, notput)
         }
     }
-    fmt.Println(dp[m])
+    return dp[totalWeight]
 }
+
+
+func main() {
+  fmt.Println("<<<<< For 0 and 1 pak >>>>>")
+  data := createBagData(10, "01")
+  fmt.Println(data)
+  pak0And1(data, 30)
+
+  fmt.Println()
+  fmt.Println("<<<<< For complete pak >>>>>")
+  data = createBagData(10, "complete")
+  fmt.Println(data)
+  pakComplete(data, 30)
+
+  fmt.Println()
+  fmt.Println("<<<<< For multiple pak >>>>>")
+  data = createBagData(10, "multiple")
+  fmt.Println(data)
+  pakMultiple(data, 30)
+}
+
+
+//const N = 11010
+//const M = 2010
+//
+//func main()  {
+//    var n, m int
+//    var v, w [N]int
+//    fmt.Scanln(&n, &m)
+//    cnt := 1
+//    for i:=0; i<=n; i++ {
+//        var a, b, s int
+//        fmt.Scanln(&a, &b, &s)
+//        k := 1
+//        for k <= s {
+//            v[cnt] = a*k
+//            w[cnt] = b*k
+//            s -= k
+//            k <<= 1
+//            cnt++
+//        }
+//
+//        if s != 0 {
+//            v[cnt] = a*s
+//            w[cnt] = b*s
+//        }
+//    }
+//    var dp [M]int
+//    for i:=1; i<=cnt; i++ {
+//        for j:=m; j>=v[i]; j-- {
+//            dp[j]=max(dp[j],dp[j-v[i]]+w[i])
+//        }
+//    }
+//    fmt.Println(dp[m])
+//}
