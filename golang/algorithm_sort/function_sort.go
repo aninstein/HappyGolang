@@ -141,11 +141,18 @@ func fastSort1(data []int) []int {
 // 类似java和c那种，数组长度不能改变，没有类似python的list或者go的切片那样的数据类型
 // 这种情况下就是充分的使用数组之间数据交换的方式进行数据排序
 // 这种方法主要是不断的寻找最佳标定位置的方法
-func fastSort2(data []int, left, right int) {
+func fastSort2(data []int) []int {
+    dataLen := len(data)
+    fastSortPosition(data, 0, dataLen-1)
+    return data
+}
+
+
+func fastSortPosition(data []int, left, right int) {
     if left < right{
         pos := position(data, left, right)
-        fastSort2(data, left,  pos-1)
-        fastSort2(data, pos+1,  right)
+        fastSortPosition(data, left,  pos-1)
+        fastSortPosition(data, pos+1,  right)
     }
 }
 
@@ -268,6 +275,7 @@ func main() {
     sortTestFunc(shellSort, data, right, "shellSort")
     sortTestFunc(fastSort1, data, right, "fastSort1")
     sortTestFunc(mergeSort, data, right, "mergeSort")
+    sortTestFunc(fastSort2, data, right, "fastSort2")
 
     var keyList []int
     for key := range TIMELIST {

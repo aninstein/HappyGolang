@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e520793a-9aee-4b24-85c4-56ebe3d510bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go" beforeDir="false" afterPath="$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/golang/algorithm_sort/function_sort.go" beforeDir="false" afterPath="$PROJECT_DIR$/golang/algorithm_sort/function_sort.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -107,15 +107,15 @@
     <session id="98925703">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.16" value="2" />
-          <entry key="project.open.time.17" value="4" />
+          <entry key="project.open.time.17" value="5" />
           <entry key="project.open.time.18" value="2" />
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.20" value="2" />
           <entry key="project.open.time.23" value="1" />
-          <entry key="project.opened" value="13" />
+          <entry key="project.opened" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -130,13 +130,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="8180" />
+          <entry key="go" value="8244" />
           <entry key="txt" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="8180" />
+          <entry key="Go" value="8244" />
           <entry key="PLAIN_TEXT" value="3" />
         </counts>
       </usages-collector>
@@ -144,11 +144,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="12">
-              <caret line="262" selection-start-line="262" selection-end-line="300" selection-end-column="1" />
+            <state relative-caret-position="60">
+              <caret line="265" column="17" selection-start-line="265" selection-start-column="17" selection-end-line="265" selection-end-column="17" />
               <folding>
                 <element signature="e#14#61#0" expanded="true" />
               </folding>
@@ -171,17 +171,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/golang/leetcode_go/roman_to_int.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+            <state relative-caret-position="256">
+              <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/golang/algorithm_sort/function_sort.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4240">
-              <caret line="270" selection-start-line="270" selection-end-line="270" />
+            <state relative-caret-position="-2411">
+              <caret line="98" column="34" selection-start-line="98" selection-start-column="34" selection-end-line="98" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -257,10 +257,10 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/golang/algorithm_sort/sortMain.go" />
         <option value="$PROJECT_DIR$/golang/leetcode_go/RomanToInt.go" />
-        <option value="$PROJECT_DIR$/golang/algorithm_sort/function_sort.go" />
         <option value="$PROJECT_DIR$/golang/leetcode_go/roman_to_int.go" />
         <option value="$PROJECT_DIR$/golang/leetcode_go/mid_0_and_1.go" />
         <option value="$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go" />
+        <option value="$PROJECT_DIR$/golang/algorithm_sort/function_sort.go" />
       </list>
     </option>
   </component>
@@ -298,6 +298,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -332,7 +333,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -347,7 +347,7 @@
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/golang" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Project" />
@@ -385,13 +385,13 @@
       <directory value="$PROJECT_DIR$/happy_code" />
       <method v="2" />
     </configuration>
-    <configuration name="go build bag.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build function_sort.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="happy_code" />
-      <working_directory value="H:\HappyGolang" />
+      <working_directory value="H:\HappyGolang\golang" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go" />
+      <filePath value="$PROJECT_DIR$/golang/algorithm_sort/function_sort.go" />
       <directory value="$PROJECT_DIR$/happy_code" />
-      <output_directory value="H:\HappyGolang\golang" />
+      <output_directory value="H:\HappyGolang" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -406,7 +406,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build bag.go" />
+        <item itemvalue="Go Build.go build function_sort.go" />
       </list>
     </recent_temporary>
   </component>
@@ -450,7 +450,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23614073" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23880596" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Designer" order="3" />
@@ -470,7 +470,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32962137" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010661" side_tool="true" weight="0.32739422" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32628062" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3259177" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="bottom" id="Application Servers" order="13" weight="0.32960895" />
       <window_info anchor="bottom" id="Java Enterprise" order="14" />
@@ -514,7 +514,6 @@
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go</url>
           <line>293</line>
-          <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
@@ -584,6 +583,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://F:/go/src/runtime/panic.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="680" selection-start-line="680" selection-end-line="680" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="265" column="17" selection-start-line="265" selection-start-column="17" selection-end-line="265" selection-end-column="17" />
+          <folding>
+            <element signature="e#14#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/golang/leetcode_go/mid_0_and_1.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -594,20 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/golang/leetcode_go/roman_to_int.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/golang/algorithm_sort/function_sort.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4240">
-          <caret line="270" selection-start-line="270" selection-end-line="270" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/golang/learn_go.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="752">
@@ -615,20 +617,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://F:/go/src/runtime/panic.go">
+    <entry file="file://$PROJECT_DIR$/golang/leetcode_go/roman_to_int.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="680" selection-start-line="680" selection-end-line="680" />
+        <state relative-caret-position="256">
+          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/golang/algorithm_dynamic_programming/bag.go">
+    <entry file="file://$PROJECT_DIR$/golang/algorithm_sort/function_sort.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12">
-          <caret line="262" selection-start-line="262" selection-end-line="300" selection-end-column="1" />
-          <folding>
-            <element signature="e#14#61#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-2411">
+          <caret line="98" column="34" selection-start-line="98" selection-start-column="34" selection-end-line="98" selection-end-column="34" />
         </state>
       </provider>
     </entry>
