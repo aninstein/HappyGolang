@@ -20,6 +20,29 @@ func createData() []int {
     return retData[:]
 }
 
+func gnomeSort(data []int) []int {
+    if data == nil || len(data) == 0 {
+        return []int{}
+    }
+
+    dataLen := len(data)
+     i := 0
+    for i < dataLen - 1 {
+        if data[i] < data[i+1] {
+            i++
+        } else {
+            tmp := data[i]
+            data[i] = data[i+1]
+            data[i+1] = tmp
+            i--
+        }
+
+        if i < 0 {
+            i++
+        }
+    }
+    return data
+}
 
 func bubbleSort(data []int) []int{
     if data == nil || len(data) == 0 {
@@ -108,7 +131,7 @@ func shellSort(data []int) []int {
             }
             data[j+step] = tmp  // 完成元素的交换
         }
-        step /= 2
+        step >>= 1
     }
     return data
 }
@@ -191,8 +214,7 @@ func merge(left, right []int) []int {
     leftLen := len(left)
     rightLen := len(right)
     var newList []int
-    i := 0
-    j := 0
+    i, j := 0, 0
     for i < leftLen && j < rightLen {
         if left[i] < right[j] {
             newList = append(newList, left[i])
@@ -269,6 +291,7 @@ func main() {
     fmt.Println("data: ", data)
     fmt.Println("right: ", right)
     TIMELIST = make(map[int] string)
+    //sortTestFunc(gnomeSort, data, right, "gnomeSort")  // 太垃圾了
     sortTestFunc(bubbleSort, data, right, "bubbleSort")
     sortTestFunc(selectSort, data, right, "selectSort")
     sortTestFunc(insertSort, data, right, "insertSort")

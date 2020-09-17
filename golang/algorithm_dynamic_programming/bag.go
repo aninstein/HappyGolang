@@ -187,6 +187,40 @@ func pakCompleteOneDim(totalNum, totalWeight int, v, w, num []int) int {
     return dp[totalWeight]
 }
 
+// 《一维解法（空间复杂度优化）》
+// 上面只是对于算法的优化，实际上我们还可以通过对数据源的优化
+// 完全背包算法可以去除掉同重量的，只取价值高的物品，这是由于物品可以无线选取
+// 但是01背包不可以，因为有可能两个物品都会需要
+func pakCompleteOneDimDataOptimizaion(totalNum, totalWeight int, v, w, num []int) int {
+    vwMap := make(map[int] int)
+    for i:=0; i<len(v); i++ {
+        val, ok := vwMap[w[i]]
+        if (ok && val < v[i]) || !ok {
+            vwMap[w[i]] = v[i]
+        }
+    }
+
+    var tv, tw []int
+    for key, val := range vwMap {
+        tv = append(tv, val)
+        tw = append(tw, key)
+    }
+
+    row := len(tv) + 1
+    col := totalWeight + 1
+    var dp = [COL]int{}
+    for i := 1; i < row; i++ {
+        if i == totalNum {
+            break
+        }
+        for j := w[i]; j < col; j++ {
+            dp[j] = max(dp[j-w[i]]+v[i], dp[j])
+        }
+    }
+    return dp[totalWeight]
+}
+
+
 //    多重背包问题
 //    问题描述：有n件物品和容量为m的背包 给出i件物品的重量以及价值 还有数量 求解让装入背包的物品重量不超过背包容量 且价值最大 。
 //    特点 ：它与完全背包有类似点 特点是每个物品都有了一定的数量。
