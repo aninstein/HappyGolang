@@ -119,6 +119,9 @@ func pakComplete(data map[string][]int, totalWeight int) int {
     res = pakCompleteOneDim(totalNumber, totalWeight, valueList, weightList, numberList)
     fmt.Println(res)
 
+    fmt.Println("One dim function pakCompleteOneDimDataOptimizaion result: ")
+    res = pakCompleteOneDimDataOptimizaion(totalNumber, totalWeight, valueList, weightList, numberList)
+    fmt.Println(res)
     return res
 }
 
