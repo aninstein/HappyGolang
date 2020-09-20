@@ -5,8 +5,6 @@ import (
     "strings"
 )
 
-const NMAX = 10
-
 // dp代表的是字符串的个数
 // 每一次放进去这个字符串就判断这个m和n还有没有值
 // 状态转移方程二维的m、n数组，需要对mj和nj逆序
@@ -20,24 +18,21 @@ func findMaxForm(strs []string, m int, n int) int {
         return 0
     }
 
-    var dp [NMAX][NMAX]int
-    for i := 0; i < dataLen; i++ {
-        str := strs[i]
+    var dp [dataLen+10][m+10][n+10]int
+    for i := 1; i < dataLen+1; i++ {
+        str := strs[i-1]
         num_0 := strNum(str, "0")
         num_1 := strNum(str, "1")
-        j, k := m, n
-        for j >= num_0 && k >= num_1 {
-            dp[j][k] = max(dp[j-num_0][k-num_1]+1, dp[j][k])
-            if j >= num_0 {
-                j--
-            }
-            if k >= num_1 {
-                k--
+        for j:=0; j<=m; j++ {
+            for k:=0; k <= n; k++ {
+                if j >= num_0 && k >= num_1 {
+                    dp[i][j][k] = max(dp[i-1][j-num_0][k-num_1]+1, dp[i][j][k])
+                }
+                dp[i][j][k] = max(dp[i][j][k], dp[i-1][j][k])
             }
         }
-
     }
-    return dp[m][n]
+    return dp[dataLen][m][n]
 }
 
 func max(a, b int) int {
@@ -53,7 +48,7 @@ func strNum(s, search string) int {
 
 func main() {
     var strArray []string
-    strArray = append(strArray, "10", "1111", "111000001", "1", "0", "0111", "1011", "0")
-    m, n := 5, 3
+    strArray = append(strArray, "00", "000")
+    m, n := 1, 10
     fmt.Println(findMaxForm(strArray, m, n))
 }
