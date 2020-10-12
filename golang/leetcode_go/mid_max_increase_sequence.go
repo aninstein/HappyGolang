@@ -45,10 +45,37 @@ func dpFunction(data []int) int {
     return maxLen
 }
 
-func binSearch(data []int, index int) int {
+// 对于上述的状态转移方程，其实我们可以做一些调整
+// 我们设定tmp数组，对于tmp[i]，即当前最长递增子序列长度为i的，是到data数组中的哪一个数字
+// 而tmp数组中存放的就是最长递增子序列
+func tmpFunction(data []int) int {
+    dataLen := len(data)
+    if dataLen == 0 {
+        return 0
+    } else if dataLen == 1 {
+        return 1
+    }
+
+    maxLen := 1
+    var tmp [MAXN]int
+    tmp[0] = data[0]
+    for i:=1; i<dataLen+1; i++ {
+        if data[i] > tmp[maxLen-1] {
+            maxLen++
+            tmp[maxLen-1] = data[i]
+        } else {
+            binSearch(tmp, data[i])
+        }
+    }
+    return maxLen
+}
+
+
+// 二分查找并且替换data左边的元素
+func binSearch(data [MAXN]int, index int) {
     dataLen := len(data)
     if dataLen ==0 || dataLen == 1 {
-        return 0
+        return
     }
     left := 0
     right := dataLen - 1
@@ -60,10 +87,10 @@ func binSearch(data []int, index int) int {
         } else if data[mid] < index {
             right = mid - 1
         } else {
-            return mid
+            data[mid] = index
         }
     }
-    return mid
+    data[left] = index
 }
 
 func max(a, b int) int {
@@ -75,7 +102,12 @@ func max(a, b int) int {
 
 
 func main() {
-    data := createData(10)
+    //data := createData(10)
+    var data []int
+    data = append(data, -2, -1)
     res := dpFunction(data)
-    fmt.Println(res)
+    fmt.Println("dpFunction: ", res)
+
+    //res = tmpFunction(data)
+    //fmt.Println("tmpFunction: ", res)
 }
