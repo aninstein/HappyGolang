@@ -29,6 +29,13 @@ func dpFunction(data []int) int {
     dataLen := len(data)
     if dataLen == 0 {
         return 0
+    } else if dataLen == 1 {
+        return 1
+    } else if dataLen == 2 {
+        if data[0] < data[1] {
+            return 2
+        }
+        return 1
     }
     var dp [MAXN]int
     maxLen := 0
@@ -36,7 +43,7 @@ func dpFunction(data []int) int {
         dp[i] = 1
         maxNum := data[i]
         for j:=0; j<i; j++ {
-            if maxNum < data[j] {
+            if maxNum > data[j] {
                 dp[i] = max(dp[j]+1, dp[i])
             }
         }
@@ -64,7 +71,7 @@ func tmpFunction(data []int) int {
             maxLen++
             tmp[maxLen-1] = data[i]
         } else {
-            binSearch(tmp, data[i])
+            binSearch(tmp, maxLen, data[i])
         }
     }
     return maxLen
@@ -72,16 +79,15 @@ func tmpFunction(data []int) int {
 
 
 // 二分查找并且替换data左边的元素
-func binSearch(data [MAXN]int, index int) {
-    dataLen := len(data)
-    if dataLen ==0 || dataLen == 1 {
+func binSearch(data [MAXN]int, maxLen, index int) {
+    if maxLen ==0 || maxLen == 1 {
         return
     }
     left := 0
-    right := dataLen - 1
+    right := maxLen - 1
     var mid int
     for left <= right {
-        mid = (left + right) >> 1  // 左移1位即除以2
+        mid = int((left + right) >> 1)  // 左移1位即除以2
         if data[mid] > index {
             left = mid + 1
         } else if data[mid] < index {
@@ -102,12 +108,12 @@ func max(a, b int) int {
 
 
 func main() {
-    //data := createData(10)
-    var data []int
-    data = append(data, -2, -1)
+    data := createData(10)
+    //var data []int
+    //data = append(data, 1, 2, 3)
     res := dpFunction(data)
     fmt.Println("dpFunction: ", res)
 
-    //res = tmpFunction(data)
-    //fmt.Println("tmpFunction: ", res)
+    res = tmpFunction(data)
+    fmt.Println("tmpFunction: ", res)
 }
