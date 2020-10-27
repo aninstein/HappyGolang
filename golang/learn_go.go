@@ -52,3 +52,157 @@ func main() {
     }
 }
 
+/*
+go的类
+*/
+
+/*
+go的接口
+// 定义接口
+type interface_name interface {
+    method_name1 [return_type]
+    method_name2 [return_type]
+    method_name3 [return_type]
+    ...
+    method_namen [return_type]
+}
+
+// 定义结构体
+type struct_name struct {
+    // variables
+}
+
+/* 实现接口方法
+func (struct_name_variable struct_name) method_name1() [return_type] {
+    // 方法实现
+}
+...
+func (struct_name_variable struct_name) method_namen() [return_type] {
+    // 方法实现
+}
+
+func main() {
+    var phone Phone
+
+    phone = new(NokiaPhone)
+    phone.call()
+
+    phone = new(IPhone)
+    phone.call()
+
+}
+
+*/
+
+type ListNode struct {
+    index int
+    Val int
+    Next *ListNode
+}
+
+type ArrayList interface {
+    insertLastNode(node *ListNode)  // 尾部插入节点
+    insertNode(index int, node *ListNode)  // 从index插入节点
+    deleteNode(index int)  // 删除index的节点
+    getNode(index int) *ListNode  // 获取第index个节点
+}
+
+type ArrayListImpl struct {
+    listLen int
+    firstNode *ListNode
+}
+
+func (arrayListImpl ArrayListImpl) insertLastNode(node *ListNode) {
+    /* 链表的尾插入法 */
+    if arrayListImpl.firstNode == nil {
+        arrayListImpl.firstNode = node
+        arrayListImpl.listLen = 1
+        return
+    }
+    count := 1
+    var next *ListNode
+    for true {
+        next = arrayListImpl.firstNode.Next
+        if next == nil{
+            node.index = count
+            arrayListImpl.firstNode.Next = node
+            arrayListImpl.listLen = count + 1
+            break
+        }
+        count++
+    }
+}
+
+func (arrayListImpl ArrayListImpl) insertNode(index int, node *ListNode) {
+    /* 链表的插入操作 */
+    if index > arrayListImpl.listLen {
+        return
+    }
+    if arrayListImpl.firstNode == nil {
+        if index != 0 {
+            return
+        }
+        arrayListImpl.firstNode = node
+        return
+    }
+    if index == 0 {
+        node.Next = arrayListImpl.firstNode
+        node.index = 0
+        arrayListImpl.firstNode = node
+        arrayListImpl.listLen++
+    } else {
+        indexNode := arrayListImpl.getNode(index-1)
+        node.Next = indexNode.Next
+        node.index = indexNode.index
+        indexNode.Next = node
+        arrayListImpl.listLen++
+    }
+    upNode := arrayListImpl.getNode(index+1)
+    for i:=index+1;i<arrayListImpl.listLen;i++ {
+        if upNode != nil {
+            upNode.index++
+        }
+        if upNode.Next != nil {
+            upNode = upNode.Next
+        }
+    }
+}
+
+func (arrayListImpl ArrayListImpl) deleteNode(index int) {
+    /* 链表的删除第index个节点 */
+    if index > arrayListImpl.listLen {
+        return
+    }
+    if arrayListImpl.firstNode == nil {
+        return
+    }
+    if index == 0 {
+        arrayListImpl.firstNode = arrayListImpl.firstNode.Next
+    } else {
+        indexNode := arrayListImpl.getNode(index-1)
+        delNode := indexNode.Next
+        indexNode.Next = delNode.Next
+    }
+    // 更新index，懒得写了
+}
+
+func (arrayListImpl ArrayListImpl) getNode(index int) *ListNode {
+    /* 链表获取第index个配置 */
+    if index > arrayListImpl.listLen {
+        return nil
+    }
+    node := arrayListImpl.firstNode
+    if node.index == index {
+        return node
+    }
+    for true {
+        node = node.Next
+        if node == nil || node.index == index{
+            return node
+        }
+    }
+    return nil
+}
+
+
+
