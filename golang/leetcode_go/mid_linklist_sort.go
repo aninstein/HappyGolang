@@ -64,6 +64,26 @@ func insertionSortList(head *ListNode) *ListNode {
 输出：[-1,0,3,4,5]
 
 */
+
+func heapSortLinkList(head *ListNode) *ListNode  {
+	heapData := createHeapList(head)
+	dataLen := len(heapData)
+	if dataLen == 0 {
+		return nil
+	} else if dataLen == 1 || dataLen == 2 {
+		return head
+	}
+	newHead, heap := popNode(heapData)
+	now := newHead
+	for len(heap) > 0 {
+		top, newHeap := popNode(heap)
+		heap = newHeap
+		now.Next = top
+		now = now.Next
+	}
+	return newHead
+}
+
 func createHeapList(head *ListNode) []*ListNode {
 	if head == nil {
 		return nil
@@ -84,12 +104,12 @@ func insertMinHeap(data []*ListNode, node *ListNode) []*ListNode {
 	dataLen := len(data)
 	if dataLen == 1 {
 		data = append(data, node)
-		if data[0].Val > data[1].Val {
+		if data[0].Val < data[1].Val {
 			return []*ListNode{data[0], data[1]}
 		}
 		return data
 	} else if dataLen == 2 {
-		if data[0].Val > node.Val {
+		if data[0].Val < node.Val {
 			return []*ListNode{data[0], data[1], node}
 		} else {
 			return []*ListNode{node, data[0], data[1]}
@@ -98,8 +118,25 @@ func insertMinHeap(data []*ListNode, node *ListNode) []*ListNode {
 
 	index := dataLen // (dataLen - 1) + 1, +1是因为append了一个
 	data = append(data, node)
-	adjustNodeBottom2Up(data, index)
+	data = adjustNodeBottom2Up(data, index)
 	return data
+}
+
+func popNode(data []*ListNode) (*ListNode, []*ListNode) {
+	dataLen := len(data)
+	if len(data) == 0 {
+		return nil, nil
+	} else if dataLen == 1 {
+		return data[0], nil
+	} else if dataLen == 2 {
+		return data[0], []*ListNode{data[1]}
+	}
+
+	top := data[0]
+	data[0] = data[dataLen-1]
+	data = data[:dataLen-1]
+	data = adjustNodeTop2down(data, 0)
+	return top, data
 }
 
 func adjustNodeBottom2Up(data []*ListNode, index int) []*ListNode {
@@ -118,6 +155,29 @@ func adjustNodeBottom2Up(data []*ListNode, index int) []*ListNode {
 	return data
 }
 
+func adjustNodeTop2down(data []*ListNode, index int) []*ListNode {
+	dataLen := len(data)
+	node := data[index]
+	leftChild := index * 2 + 1
+	rightChild := index * 2 + 2
+	for leftChild < dataLen {
+		min := leftChild
+		if rightChild < dataLen && data[leftChild].Val > data[rightChild].Val {
+			min = rightChild
+		}
+
+		if data[index].Val < data[min].Val {
+			break
+		}
+		data[index], data[min] = data[min], data[index]
+
+		index = min
+		leftChild = index * 2 + 1
+		rightChild = index * 2 + 2
+	}
+	data[index] = node
+	return data
+}
 
 func createListLink(data []int) *ListNode {
 	dataLen := len(data)
@@ -154,6 +214,6 @@ func main() {
 	fmt.Println("data >>>>>>>>>>>>>>>")
 	printListLink(res)
 	fmt.Println("sort data >>>>>>>>>>>>>")
-	sortRes := insertionSortList(res)
+	sortRes := heapSortLinkList(res)
 	printListLink(sortRes)
 }
