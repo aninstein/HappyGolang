@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"sort"
+	"time"
 )
 
 // Definition for singly-linked list.
@@ -9,6 +12,8 @@ type ListNode struct {
     Val int
     Next *ListNode
 }
+
+var TESTTIME map[int] string
 
 /*
 题目：链表插入排序
@@ -64,6 +69,26 @@ func insertionSortList(head *ListNode) *ListNode {
 输出：[-1,0,3,4,5]
 
 */
+
+func heapSortLinkList(head *ListNode) *ListNode  {
+	heapData := createHeapList(head)
+	dataLen := len(heapData)
+	if dataLen == 0 {
+		return nil
+	} else if dataLen == 1 || dataLen == 2 {
+		return head
+	}
+	newHead, heap := popNode(heapData)
+	now := newHead
+	for len(heap) > 0 {
+		top, newHeap := popNode(heap)
+		heap = newHeap
+		now.Next = top
+		now = now.Next
+	}
+	return newHead
+}
+
 func createHeapList(head *ListNode) []*ListNode {
 	if head == nil {
 		return nil
@@ -84,12 +109,12 @@ func insertMinHeap(data []*ListNode, node *ListNode) []*ListNode {
 	dataLen := len(data)
 	if dataLen == 1 {
 		data = append(data, node)
-		if data[0].Val > data[1].Val {
+		if data[0].Val < data[1].Val {
 			return []*ListNode{data[0], data[1]}
 		}
 		return data
 	} else if dataLen == 2 {
-		if data[0].Val > node.Val {
+		if data[0].Val < node.Val {
 			return []*ListNode{data[0], data[1], node}
 		} else {
 			return []*ListNode{node, data[0], data[1]}
@@ -98,8 +123,25 @@ func insertMinHeap(data []*ListNode, node *ListNode) []*ListNode {
 
 	index := dataLen // (dataLen - 1) + 1, +1是因为append了一个
 	data = append(data, node)
-	adjustNodeBottom2Up(data, index)
+	data = adjustNodeBottom2Up(data, index)
 	return data
+}
+
+func popNode(data []*ListNode) (*ListNode, []*ListNode) {
+	dataLen := len(data)
+	if len(data) == 0 {
+		return nil, nil
+	} else if dataLen == 1 {
+		return data[0], nil
+	} else if dataLen == 2 {
+		return data[0], []*ListNode{data[1]}
+	}
+
+	top := data[0]
+	data[0] = data[dataLen-1]
+	data = data[:dataLen-1]
+	data = adjustNodeTop2down(data, 0)
+	return top, data
 }
 
 func adjustNodeBottom2Up(data []*ListNode, index int) []*ListNode {
@@ -118,6 +160,93 @@ func adjustNodeBottom2Up(data []*ListNode, index int) []*ListNode {
 	return data
 }
 
+func adjustNodeTop2down(data []*ListNode, index int) []*ListNode {
+	dataLen := len(data)
+	node := data[index]
+	leftChild := index * 2 + 1
+	rightChild := index * 2 + 2
+	for leftChild < dataLen {
+		min := leftChild
+		if rightChild < dataLen && data[leftChild].Val > data[rightChild].Val {
+			min = rightChild
+		}
+
+		if data[index].Val < data[min].Val {
+			break
+		}
+		data[index], data[min] = data[min], data[index]
+
+		index = min
+		leftChild = index * 2 + 1
+		rightChild = index * 2 + 2
+	}
+	data[index] = node
+	return data
+}
+
+
+/*
+归并排序
+*/
+func merge(head1, head2 *ListNode) *ListNode {
+	dummyHead := &ListNode{}
+	temp, temp1, temp2 := dummyHead, head1, head2
+	for temp1 != nil && temp2 != nil {
+		if temp1.Val <= temp2.Val {
+			temp.Next = temp1
+			temp1 = temp1.Next
+		} else {
+			temp.Next = temp2
+			temp2 = temp2.Next
+		}
+		temp = temp.Next
+	}
+	if temp1 != nil {
+		temp.Next = temp1
+	} else if temp2 != nil {
+		temp.Next = temp2
+	}
+	return dummyHead.Next
+}
+
+func mergeSort(head, tail *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
+
+	if head.Next == tail {
+		head.Next = nil
+		return head
+	}
+
+	slow, fast := head, head
+	for fast != tail {
+		slow = slow.Next
+		fast = fast.Next
+		if fast != tail {
+			fast = fast.Next
+		}
+	}
+
+	mid := slow
+	return merge(mergeSort(head, mid), mergeSort(mid, tail))
+}
+
+func mergeSortList(head *ListNode) *ListNode {
+	return mergeSort(head, nil)
+}
+
+
+/*
+* 共用方法
+*/
+func createListData(number int) []int {
+	var data []int
+	for i := 0; i < number; i++ {
+		data = append(data, rand.Intn(number))
+	}
+	return data
+}
 
 func createListLink(data []int) *ListNode {
 	dataLen := len(data)
@@ -140,7 +269,7 @@ func createListLink(data []int) *ListNode {
 
 func printListLink(node *ListNode)  {
 	for true {
-		fmt.Println(node.Val)
+		fmt.Print(" ", node.Val)
 		if node.Next == nil {
 			break
 		}
@@ -148,12 +277,57 @@ func printListLink(node *ListNode)  {
 	}
 }
 
+func checkResult(head, right *ListNode) string {
+	now := head
+	rightNow := right
+	for now != nil {
+		if now.Val != rightNow.Val {
+			return "false"
+		}
+		now = now.Next
+		rightNow = rightNow.Next
+	}
+	return "true"
+}
+
+func sortTestFunc(sortFunc func(head *ListNode) *ListNode, head, right *ListNode, name string) *ListNode {
+	usHead := head
+	fmt.Println("# "+ name +" start >>>>>>>>>>>>>>>>>>")
+	start := time.Now().UnixNano()
+	resData := sortFunc(usHead)
+	total := time.Now().UnixNano() - start
+	TESTTIME[int(total)] = name
+	fmt.Println("# "+ name +" end, total time: ", total)
+	fmt.Println("# "+ name +" sort result is ", checkResult(usHead, right))
+	fmt.Println("# "+ name + " result: ")
+	printListLink(resData)
+	fmt.Println("\n")
+	return resData
+}
+
 func main() {
-	data := []int{1, 5, 8, 5, 4, 2, 3, 4, 7, 9}
-	res := createListLink(data)
+	data := createListData(100)
+	linkList := createListLink(data)
 	fmt.Println("data >>>>>>>>>>>>>>>")
-	printListLink(res)
-	fmt.Println("sort data >>>>>>>>>>>>>")
-	sortRes := insertionSortList(res)
-	printListLink(sortRes)
+	printListLink(linkList)
+	TESTTIME = make(map[int] string)
+	retData := sortTestFunc(insertionSortList, linkList, &ListNode{}, "insertionSortList")
+
+	linkList = createListLink(data)
+	sortTestFunc(heapSortLinkList, linkList, retData, "heapSortLinkList")
+
+	linkList = createListLink(data)
+	sortTestFunc(mergeSortList, linkList, retData, "mergeSortList")
+
+	var keyList []int
+	for key := range TESTTIME {
+		keyList = append(keyList, key)
+	}
+	sort.Ints(keyList)
+
+
+	for i:=0; i<len(keyList); i++ {
+		key := keyList[i]
+		fmt.Println("time: ", key, "func name: ", TESTTIME[key])
+	}
 }
