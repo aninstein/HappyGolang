@@ -40,10 +40,3 @@ func lengthOfLIS(nums []int) int {
 	}
 	return maxVal
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
- 	}
- 	return b
-}
